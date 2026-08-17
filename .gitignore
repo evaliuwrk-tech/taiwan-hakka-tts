@@ -1,0 +1,13 @@
+.private/
+.codex/
+.dev.vars
+worker/.dev.vars
+node_modules/
+.pnpm-store/
+.wrangler/
+worker/dist/
+.env
+output/
+tmp/
+__pycache__/
+*.pyc

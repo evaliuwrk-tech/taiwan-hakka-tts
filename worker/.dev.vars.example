@@ -1,0 +1,6 @@
+HAKKA_TTS_BASE_URL=https://example.com
+HAKKA_TTS_USERNAME=your-username
+HAKKA_TTS_PASSWORD=your-password
+APP_ACCESS_KEY=choose-a-long-random-access-key
+ALLOWED_ORIGINS=http://localhost:8000
+ENVIRONMENT=development

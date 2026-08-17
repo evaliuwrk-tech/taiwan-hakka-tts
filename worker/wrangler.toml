@@ -1,0 +1,8 @@
+name = "hakka-tts-proxy"
+main = "src/index.js"
+compatibility_date = "2026-08-01"
+
+[vars]
+ENVIRONMENT = "production"
+# 發布後改成你的 GitHub Pages 網址，例如：https://your-name.github.io
+ALLOWED_ORIGINS = "https://your-name.github.io"

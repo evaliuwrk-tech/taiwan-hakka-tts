@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3eee3" />
+    <meta
+      name="description"
+      content="臺灣客語語音合成工具，支援四縣、海陸與大埔腔，以及自然、對話、敘事和播報節奏。"
+    />
+    <title>聲在・臺灣客語朗讀</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="回到首頁">
+          <span class="brand-mark" aria-hidden="true">聲</span>
+          <span>聲在 <small>客語朗讀室</small></span>
+        </a>
+        <button class="quiet-button" id="open-settings" type="button">
+          <span class="status-dot" id="connection-dot" aria-hidden="true"></span>
+          服務設定
+        </button>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="page-title">
+          <p class="eyebrow">TAIWAN HAKKA VOICE STUDIO</p>
+          <h1 id="page-title">讓客語，照著語意<br />自然地說出來。</h1>
+          <p class="hero-copy">
+            選擇腔調與聲線，系統會整理斷句、拿捏停頓，產生可播放、可下載的客語聲音。
+          </p>
+        </section>
+
+        <form class="studio" id="tts-form">
+          <section class="composer panel" aria-labelledby="text-heading">
+            <div class="section-heading">
+              <div>
+                <span class="step">01</span>
+                <h2 id="text-heading">輸入想朗讀的內容</h2>
+              </div>
+              <span class="counter"><strong id="character-count">0</strong> / 500</span>
+            </div>
+
+            <textarea
+              id="speech-text"
+              name="text"
+              maxlength="500"
+              rows="9"
+              placeholder="在這裡輸入客語漢字、中文或客語拼音……"
+              required
+            ></textarea>
+
+            <div class="text-toolbar">
+              <fieldset class="inline-options">
+                <legend>文字格式</legend>
+                <label><input type="radio" name="text-type" value="characters" checked />客語漢字</label>
+                <label><input type="radio" name="text-type" value="common" />中文</label>
+                <label><input type="radio" name="text-type" value="roma" />羅馬拼音</label>
+              </fieldset>
+              <button class="text-button" id="insert-example" type="button">放入示範文字</button>
+            </div>
+
+            <details class="preview-block" id="preview-details">
+              <summary>查看自然斷句預覽</summary>
+              <p id="prepared-preview">輸入文字後，這裡會顯示實際送去朗讀的斷句。</p>
+            </details>
+          </section>
+
+          <section class="controls panel" aria-labelledby="voice-heading">
+            <div class="section-heading compact">
+              <div>
+                <span class="step">02</span>
+                <h2 id="voice-heading">調整說話的方式</h2>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <label class="field">
+                <span>腔調</span>
+                <select id="dialect" name="dialect">
+                  <option value="sixian">四縣腔</option>
+                  <option value="hailu">海陸腔</option>
+                  <option value="dapu">大埔腔</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>聲音</span>
+                <select id="gender" name="gender">
+                  <option value="female">女聲</option>
+                  <option value="male">男聲</option>
+                </select>
+              </label>
+            </div>
+
+            <fieldset class="rhythm-fieldset">
+              <legend>朗讀節奏</legend>
+              <div class="rhythm-grid">
+                <label class="rhythm-card">
+                  <input type="radio" name="rhythm" value="natural" checked />
+                  <span><strong>自然</strong><small>一般朗讀</small></span>
+                </label>
+                <label class="rhythm-card">
+                  <input type="radio" name="rhythm" value="conversation" />
+                  <span><strong>對話</strong><small>輕快俐落</small></span>
+                </label>
+                <label class="rhythm-card">
+                  <input type="radio" name="rhythm" value="narration" />
+                  <span><strong>敘事</strong><small>從容有餘韻</small></span>
+                </label>
+                <label class="rhythm-card">
+                  <input type="radio" name="rhythm" value="news" />
+                  <span><strong>播報</strong><small>清楚穩定</small></span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="field-row">
+              <label class="field">
+                <span>聲線</span>
+                <select id="tone" name="tone">
+                  <option value="natural">自然原聲</option>
+                  <option value="warm">溫暖</option>
+                  <option value="soft">柔和</option>
+                  <option value="deep">低沉</option>
+                  <option value="young">年輕</option>
+                  <option value="bright">明亮</option>
+                </select>
+              </label>
+              <label class="field range-field">
+                <span>語速 <output id="rate-output">1.00×</output></span>
+                <input id="rate" name="rate" type="range" min="0.7" max="1.3" step="0.05" value="1" />
+              </label>
+            </div>
+
+            <details class="advanced">
+              <summary>細部停頓設定</summary>
+              <div class="field-row">
+                <label class="field range-field">
+                  <span>短停頓 <output id="short-pause-output">100 ms</output></span>
+                  <input id="short-pause" type="range" min="40" max="300" step="5" value="100" />
+                </label>
+                <label class="field range-field">
+                  <span>長停頓 <output id="long-pause-output">300 ms</output></span>
+                  <input id="long-pause" type="range" min="150" max="800" step="10" value="300" />
+                </label>
+              </div>
+            </details>
+
+            <button class="primary-button" id="synthesize-button" type="submit">
+              <span class="button-label">產生客語聲音</span>
+              <span class="button-arrow" aria-hidden="true">→</span>
+            </button>
+            <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+          </section>
+        </form>
+
+        <section class="result-panel" id="result-panel" aria-labelledby="result-heading" hidden>
+          <div>
+            <p class="eyebrow">YOUR HAKKA VOICE</p>
+            <h2 id="result-heading">聲音完成了</h2>
+            <p id="result-description">已套用自然節奏與四縣腔女聲。</p>
+          </div>
+          <div class="player-wrap">
+            <div class="sound-bars" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+            <audio id="audio-player" controls></audio>
+            <a class="download-button" id="download-audio" download="hakka-speech.wav">下載 WAV 音檔</a>
+          </div>
+        </section>
+
+        <section class="notes" aria-label="使用說明">
+          <article><span>完整句子</span><p>一次輸入完整語句，會比逐字合成更連貫。</p></article>
+          <article><span>智慧斷句</span><p>系統只調整空格與標點，不會改動原本用字。</p></article>
+          <article><span>私密安全</span><p>原始 API 帳密只留在後端，不會放進公開網頁。</p></article>
+        </section>
+      </main>
+
+      <footer>
+        <p>臺灣客語語音合成・讓每一句話都有呼吸</p>
+      </footer>
+    </div>
+
+    <dialog id="settings-dialog">
+      <form method="dialog" id="settings-form">
+        <div class="dialog-heading">
+          <div><p class="eyebrow">CONNECTION</p><h2>服務設定</h2></div>
+          <button class="close-button" id="close-settings" aria-label="關閉設定" type="button">×</button>
+        </div>
+        <p class="dialog-copy">請填入已發布的安全代理網址與你設定的頁面存取碼。這裡不需要填客語 API 帳號或密碼。</p>
+        <label class="field">
+          <span>後端服務網址</span>
+          <input id="api-url" type="url" placeholder="https://hakka-tts-proxy.example.workers.dev" required />
+        </label>
+        <label class="field">
+          <span>頁面存取碼</span>
+          <input id="app-key" type="password" autocomplete="current-password" required />
+        </label>
+        <label class="remember"><input id="remember-settings" type="checkbox" checked />記住在這台裝置</label>
+        <button class="primary-button" id="save-settings" value="default" type="submit">
+          <span class="button-label">儲存並測試連線</span><span class="button-arrow">→</span>
+        </button>
+        <p class="form-message" id="settings-message" role="status" aria-live="polite"></p>
+      </form>
+    </dialog>
+
+    <script src="config.js"></script>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
