@@ -46,7 +46,9 @@ python -m hakka_tts.cli synthesize "食飽吂？今晡日愛去哪位尞？" --r
 
 ### 聲線預設
 
-`--tone` 支援 `natural`（自然）、`deep`（低沉）、`young`（年輕）、`warm`（溫暖）、`bright`（明亮）、`soft`（柔和）。也可以用 `--pitch-semitones -4` 到 `+4` 覆寫預設音高。聲線處理由標準 Python 完成，不需安裝 FFmpeg；程式會反向調整 API 語速，以補償音高處理造成的速度變化。
+`--tone` 支援 `natural`（自然）、`deep`（低沉）、`young`（年輕）、`child`（兒童）、`warm`（溫暖）、`bright`（明亮）、`soft`（柔和）。也可以用 `--pitch-semitones -4` 到 `+4` 覆寫預設音高。聲線處理由標準 Python 完成，不需安裝 FFmpeg；程式會反向調整 API 語速，以補償音高處理造成的速度變化。
+
+`child` 是由現有語者提高音高、減少低頻並增加清晰度所模擬的兒童聲線；原始 API 並未提供真正的兒童錄音語者，因此效果會保留所選男聲或女聲的部分音色特徵。
 
 ### 朗讀節奏預設
 

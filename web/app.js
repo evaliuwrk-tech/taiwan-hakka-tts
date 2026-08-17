@@ -4,6 +4,7 @@ const TONES = {
   natural: { label: "自然原聲", pitch: 0, low: 0, high: 0, gain: 0 },
   deep: { label: "低沉", pitch: -2, low: 3, high: -1.5, gain: -1 },
   young: { label: "年輕", pitch: 1.5, low: -1, high: 2, gain: -1 },
+  child: { label: "兒童", pitch: 3.5, low: -2, high: 2.5, gain: -1.5 },
   warm: { label: "溫暖", pitch: -0.5, low: 2, high: -1, gain: -0.5 },
   bright: { label: "明亮", pitch: 0, low: -0.5, high: 3, gain: -1.5 },
   soft: { label: "柔和", pitch: 0, low: 1, high: -2.5, gain: -0.5 },

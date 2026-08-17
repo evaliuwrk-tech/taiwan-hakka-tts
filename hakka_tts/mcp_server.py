@@ -21,7 +21,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 ENV_FILE = PROJECT_ROOT / ".env"
 OUTPUT_DIR = PROJECT_ROOT / "output" / "audio"
 SERVER_NAME = "taiwan-hakka-tts"
-SERVER_VERSION = "0.3.0"
+SERVER_VERSION = "0.4.0"
 
 
 TOOLS: list[dict[str, Any]] = [
@@ -41,7 +41,7 @@ TOOLS: list[dict[str, Any]] = [
         "name": "hakka_tts_synthesize",
         "description": (
             "將文字合成臺灣客語 WAV 音檔。預設四縣腔女聲；海陸腔有男女聲，大埔腔只有女聲。"
-            "可套用自然、低沉、年輕、溫暖、明亮或柔和聲線。"
+            "可套用自然、低沉、年輕、兒童、溫暖、明亮或柔和聲線。"
             "可使用自然、對話、敘事或播報節奏，自動整理斷句與停頓。"
             "會呼叫外部 API 並將音檔寫入專案 output/audio。"
         ),
@@ -76,9 +76,9 @@ TOOLS: list[dict[str, Any]] = [
                 },
                 "tone": {
                     "type": "string",
-                    "enum": ["natural", "deep", "young", "warm", "bright", "soft"],
+                    "enum": ["natural", "deep", "young", "child", "warm", "bright", "soft"],
                     "default": "natural",
-                    "description": "聲線預設：自然、低沉、年輕、溫暖、明亮、柔和",
+                    "description": "聲線預設：自然、低沉、年輕、兒童、溫暖、明亮、柔和",
                 },
                 "rhythm": {
                     "type": "string",
@@ -212,7 +212,7 @@ def handle(message: dict[str, Any]) -> dict[str, Any] | None:
                 "instructions": (
                     "當使用者要求客語發音、朗讀或語音合成時，呼叫 hakka_tts_synthesize。"
                     "未指定時使用四縣腔女聲、common 文字格式與 1.0 語速。"
-                    "聲線可選 natural、deep、young、warm、bright、soft；未指定使用 natural。"
+                    "聲線可選 natural、deep、young、child、warm、bright、soft；未指定使用 natural。"
                     "節奏可選 original、natural、conversation、narration、news；未指定使用 natural。"
                     "工具會回傳可播放的 WAV 與本機路徑；若 API 帳號過期，清楚回報 API 錯誤碼。"
                 ),

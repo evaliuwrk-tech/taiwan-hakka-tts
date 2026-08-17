@@ -29,6 +29,9 @@ TONE_PRESETS: dict[str, TonePreset] = {
     "young": TonePreset(
         "young", "年輕", "稍微提高音高與明亮度", 1.5, -1.0, 2.0, -1.0
     ),
+    "child": TonePreset(
+        "child", "兒童", "提高音高、減少低頻並增加清晰度，模擬兒童聲線", 3.5, -2.0, 2.5, -1.5
+    ),
     "warm": TonePreset(
         "warm", "溫暖", "略降音高、增加厚度並柔化高頻", -0.5, 2.0, -1.0, -0.5
     ),
@@ -44,6 +47,7 @@ TONE_ALIASES = {
     "自然": "natural",
     "低沉": "deep",
     "年輕": "young",
+    "兒童": "child",
     "溫暖": "warm",
     "明亮": "bright",
     "柔和": "soft",
