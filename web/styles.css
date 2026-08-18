@@ -149,6 +149,7 @@ fieldset { min-width: 0; padding: 0; margin: 0; border: 0; }
 .rhythm-fieldset legend { margin-bottom: 11px; color: var(--muted); font-size: 12px; font-weight: 600; }
 .rhythm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 .rhythm-card { position: relative; display: block; cursor: pointer; }
+.rhythm-card.featured { grid-column: 1 / -1; }
 .rhythm-card span { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 13px 14px; border: 1px solid var(--line); border-radius: 3px; transition: 160ms ease; }
 .rhythm-card strong { font-size: 14px; }
 .rhythm-card small { color: var(--muted); font-size: 10px; font-weight: 500; }
@@ -159,6 +160,8 @@ fieldset { min-width: 0; padding: 0; margin: 0; border: 0; }
 .range-field span { display: flex; justify-content: space-between; }
 .range-field output { color: var(--red); font-weight: 700; }
 input[type="range"] { width: 100%; accent-color: var(--red); }
+.range-scale { display: flex; justify-content: space-between; color: #999288; font-size: 9px; font-weight: 500; }
+.range-scale i { font-style: normal; }
 .advanced { margin: 23px 0 0; padding: 17px 0; border-top: 1px dashed var(--line); }
 .advanced .field-row { margin-top: 18px; }
 
@@ -219,6 +222,83 @@ dialog::backdrop { background: rgba(36, 31, 25, 0.58); backdrop-filter: blur(4px
 .dialog-copy { color: var(--muted); font-size: 13px; line-height: 1.8; }
 #settings-form .field { margin-top: 18px; }
 .remember { display: flex; gap: 8px; margin-top: 16px; align-items: center; color: var(--muted); font-size: 12px; }
+
+@media (min-width: 1500px) and (min-height: 850px) {
+  .page-shell { width: min(1660px, calc(100% - 64px)); }
+  .topbar { min-height: 72px; }
+  .brand-mark { width: 38px; }
+
+  main {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.5fr) minmax(0, 2.35fr);
+    column-gap: 32px;
+    padding: 32px 0 18px;
+  }
+
+  .hero {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    max-width: 300px;
+    margin: 8px 0 0;
+  }
+
+  .hero::after { right: 8px; top: 310px; font-size: 120px; }
+  .hero .eyebrow { margin-bottom: 13px; font-size: 9px; }
+  h1 { margin-bottom: 18px; font-size: 42px; line-height: 1.25; }
+  .hero-copy { font-size: 14px; line-height: 1.75; }
+
+  .studio {
+    grid-column: 2;
+    grid-row: 1;
+    grid-template-columns: minmax(0, 1.1fr) minmax(430px, 0.9fr);
+    gap: 18px;
+  }
+
+  .composer, .controls { padding: 24px; }
+  .section-heading { margin-bottom: 18px; }
+  .section-heading.compact { margin-bottom: 18px; }
+  .section-heading h2 { font-size: 19px; }
+
+  textarea {
+    min-height: 205px;
+    max-height: 245px;
+    padding: 16px 4px;
+    font-size: 18px;
+    line-height: 1.75;
+  }
+
+  .text-toolbar { padding-top: 12px; }
+  .preview-block { margin-top: 14px; padding-top: 13px; }
+  .preview-block p { margin-top: 9px; padding: 10px 12px; font-size: 12px; line-height: 1.65; }
+
+  .field-row { gap: 12px; }
+  .field select, .field input[type="url"], .field input[type="password"] { padding: 10px 12px; }
+  .rhythm-fieldset { margin: 17px 0; }
+  .rhythm-fieldset legend { margin-bottom: 8px; }
+  .rhythm-grid { gap: 7px; }
+  .rhythm-card span { padding: 9px 11px; }
+  .rhythm-card strong { font-size: 13px; }
+  .advanced { margin-top: 14px; padding: 12px 0; }
+  .advanced .field-row { margin-top: 12px; }
+  .primary-button { min-height: 50px; margin-top: 8px; }
+  .form-message { min-height: 16px; margin-top: 7px; }
+
+  .result-panel {
+    grid-column: 1 / -1;
+    padding: 22px 28px;
+    margin-top: 18px;
+  }
+
+  .notes {
+    grid-column: 1 / -1;
+    margin-top: 22px;
+  }
+
+  .notes article { padding: 16px 22px; }
+  .notes span { margin-bottom: 6px; }
+  footer { padding: 12px 0 18px; }
+}
 
 @media (max-width: 900px) {
   main { padding-top: 62px; }

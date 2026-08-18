@@ -13,6 +13,13 @@ export const RHYTHM_PRESETS = {
     longPauseMs: 300,
     maxClauseChars: 20,
   },
+  human: {
+    label: "真人口語",
+    description: "短氣口與較密的語意分句，模擬自然人聲說話",
+    shortPauseMs: 70,
+    longPauseMs: 240,
+    maxClauseChars: 16,
+  },
   conversation: {
     label: "對話",
     description: "停頓俐落，接近日常說話",

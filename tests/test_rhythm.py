@@ -27,6 +27,17 @@ class RhythmTests(unittest.TestCase):
         self.assertEqual(speech.short_pause_ms, 75)
         self.assertEqual(speech.long_pause_ms, 300)
 
+    def test_human_rhythm_uses_shorter_breath_pauses(self) -> None:
+        speech = prepare_speech(
+            "今晡日𠊎想愛摎你講一段溫暖个故事分你聽",
+            text_type="characters",
+            rhythm="真人口語",
+        )
+        self.assertEqual(speech.rhythm.name, "human")
+        self.assertEqual(speech.short_pause_ms, 70)
+        self.assertEqual(speech.long_pause_ms, 240)
+        self.assertIn("，", speech.text)
+
     def test_unknown_rhythm_is_rejected(self) -> None:
         with self.assertRaises(HakkaTTSError):
             resolve_rhythm("robot")

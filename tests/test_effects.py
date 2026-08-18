@@ -71,7 +71,7 @@ class EffectsTests(unittest.TestCase):
     def test_alias_and_custom_pitch_validation(self):
         self.assertEqual(resolve_tone("溫暖").name, "warm")
         self.assertEqual(resolve_tone("兒童").name, "child")
-        self.assertEqual(resolve_tone("child").pitch_semitones, 3.5)
+        self.assertEqual(resolve_tone("child").pitch_semitones, 5.0)
         self.assertEqual(resolve_tone("deep", -3.0).pitch_semitones, -3.0)
         with self.assertRaises(HakkaTTSError):
             resolve_tone("deep", -5.0)

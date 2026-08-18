@@ -27,6 +27,7 @@ class MCPServerTests(unittest.TestCase):
         self.assertIn("tone", synthesize["inputSchema"]["properties"])
         self.assertIn("pitch_semitones", synthesize["inputSchema"]["properties"])
         self.assertIn("child", synthesize["inputSchema"]["properties"]["tone"]["enum"])
+        self.assertIn("human", synthesize["inputSchema"]["properties"]["rhythm"]["enum"])
 
     def test_catalog_is_available_offline(self):
         response = handle(

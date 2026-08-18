@@ -1,13 +1,13 @@
 import { prepareText, RHYTHM_PRESETS } from "./rhythm.js";
 
 const TONES = {
-  natural: { label: "自然原聲", pitch: 0, low: 0, high: 0, gain: 0 },
-  deep: { label: "低沉", pitch: -2, low: 3, high: -1.5, gain: -1 },
-  young: { label: "年輕", pitch: 1.5, low: -1, high: 2, gain: -1 },
-  child: { label: "兒童", pitch: 3.5, low: -2, high: 2.5, gain: -1.5 },
-  warm: { label: "溫暖", pitch: -0.5, low: 2, high: -1, gain: -0.5 },
-  bright: { label: "明亮", pitch: 0, low: -0.5, high: 3, gain: -1.5 },
-  soft: { label: "柔和", pitch: 0, low: 1, high: -2.5, gain: -0.5 },
+  natural: { label: "自然原聲", pitch: 0, low: 0, high: 0, presence: 0, gain: 0 },
+  deep: { label: "低沉", pitch: -3.5, low: 6, high: -4, presence: -2, gain: -3 },
+  young: { label: "年輕", pitch: 2.8, low: -3, high: 4.5, presence: 2, gain: -2.5 },
+  child: { label: "兒童", pitch: 5, low: -6, high: 6, presence: 4, gain: -3.5 },
+  warm: { label: "溫暖", pitch: -1.2, low: 5, high: -4, presence: 1, gain: -2.5 },
+  bright: { label: "明亮", pitch: 0.8, low: -3, high: 7, presence: 3, gain: -4 },
+  soft: { label: "柔和", pitch: -0.7, low: 2, high: -7, presence: -2.5, gain: -2.5 },
 };
 
 const DIALECTS = { sixian: "四縣腔", hailu: "海陸腔", dapu: "大埔腔" };
@@ -148,7 +148,7 @@ function audioBufferToWav(audioBuffer) {
 }
 
 async function applyTone(arrayBuffer, tone) {
-  if (tone.pitch === 0 && tone.low === 0 && tone.high === 0 && tone.gain === 0) {
+  if (tone.pitch === 0 && tone.low === 0 && tone.high === 0 && tone.presence === 0 && tone.gain === 0) {
     return new Blob([arrayBuffer], { type: "audio/wav" });
   }
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -171,9 +171,20 @@ async function applyTone(arrayBuffer, tone) {
   high.type = "highshelf";
   high.frequency.value = 3000;
   high.gain.value = tone.high;
+  const presence = offline.createBiquadFilter();
+  presence.type = "peaking";
+  presence.frequency.value = 1400;
+  presence.Q.value = 0.9;
+  presence.gain.value = tone.presence;
   const gain = offline.createGain();
   gain.gain.value = 10 ** (tone.gain / 20);
-  source.connect(low).connect(high).connect(gain).connect(offline.destination);
+  const compressor = offline.createDynamicsCompressor();
+  compressor.threshold.value = -8;
+  compressor.knee.value = 12;
+  compressor.ratio.value = 6;
+  compressor.attack.value = 0.004;
+  compressor.release.value = 0.12;
+  source.connect(low).connect(high).connect(presence).connect(gain).connect(compressor).connect(offline.destination);
   source.start();
   return audioBufferToWav(await offline.startRendering());
 }

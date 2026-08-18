@@ -12,6 +12,15 @@ test("羅馬拼音保留詞間空格", () => {
   assert.equal(prepareText("siiid bauˋ mangˇ", "roma", "natural"), "siiid bauˋ mangˇ");
 });
 
+test("真人口語會替過長語句加入較密的語意分句", () => {
+  const prepared = prepareText(
+    "今晡日𠊎想愛摎你講一段溫暖个故事分你聽",
+    "characters",
+    "human",
+  );
+  assert.match(prepared, /，/);
+});
+
 test("大埔腔拒絕未提供的男聲", () => {
   assert.throws(
     () => validatePayload({ text: "食飽吂？", dialect: "dapu", gender: "male" }),

@@ -19,27 +19,28 @@ class TonePreset:
     low_shelf_db: float = 0.0
     high_shelf_db: float = 0.0
     output_gain_db: float = 0.0
+    presence_db: float = 0.0
 
 
 TONE_PRESETS: dict[str, TonePreset] = {
     "natural": TonePreset("natural", "自然", "保留 API 原始聲音"),
     "deep": TonePreset(
-        "deep", "低沉", "降低音高並加強中低頻", -2.0, 3.0, -1.5, -1.0
+        "deep", "低沉", "明顯降低音高並強化低頻厚度", -3.5, 6.0, -4.0, -3.0, -2.0
     ),
     "young": TonePreset(
-        "young", "年輕", "稍微提高音高與明亮度", 1.5, -1.0, 2.0, -1.0
+        "young", "年輕", "提高音高、減少厚重感並增加明亮度", 2.8, -3.0, 4.5, -2.5, 2.0
     ),
     "child": TonePreset(
-        "child", "兒童", "提高音高、減少低頻並增加清晰度，模擬兒童聲線", 3.5, -2.0, 2.5, -1.5
+        "child", "兒童", "大幅提高音高、削弱低頻並強化清晰度", 5.0, -6.0, 6.0, -3.5, 4.0
     ),
     "warm": TonePreset(
-        "warm", "溫暖", "略降音高、增加厚度並柔化高頻", -0.5, 2.0, -1.0, -0.5
+        "warm", "溫暖", "降低音高、增加厚度並明顯柔化高頻", -1.2, 5.0, -4.0, -2.5, 1.0
     ),
     "bright": TonePreset(
-        "bright", "明亮", "保留音高並增加高頻清晰度", 0.0, -0.5, 3.0, -1.5
+        "bright", "明亮", "略升音高並大幅增加高頻與存在感", 0.8, -3.0, 7.0, -4.0, 3.0
     ),
     "soft": TonePreset(
-        "soft", "柔和", "稍增厚度並抑制尖銳高頻", 0.0, 1.0, -2.5, -0.5
+        "soft", "柔和", "稍降音高並大幅抑制尖銳高頻", -0.7, 2.0, -7.0, -2.5, -2.5
     ),
 }
 
@@ -157,6 +158,22 @@ def _shelf_coefficients(
     return b0 / a0, b1 / a0, b2 / a0, a1 / a0, a2 / a0
 
 
+def _peaking_coefficients(
+    sample_rate: int, frequency: float, q: float, gain_db: float
+) -> tuple[float, float, float, float, float]:
+    amplitude = 10.0 ** (gain_db / 40.0)
+    omega = 2.0 * math.pi * frequency / sample_rate
+    cosine = math.cos(omega)
+    alpha = math.sin(omega) / (2.0 * q)
+    b0 = 1.0 + alpha * amplitude
+    b1 = -2.0 * cosine
+    b2 = 1.0 - alpha * amplitude
+    a0 = 1.0 + alpha / amplitude
+    a1 = -2.0 * cosine
+    a2 = 1.0 - alpha / amplitude
+    return b0 / a0, b1 / a0, b2 / a0, a1 / a0, a2 / a0
+
+
 def _apply_biquad(
     samples: list[float], coefficients: tuple[float, float, float, float, float]
 ) -> list[float]:
@@ -177,6 +194,7 @@ def process_wav(wav_bytes: bytes, tone: TonePreset) -> bytes:
         and math.isclose(tone.low_shelf_db, 0.0, abs_tol=1e-9)
         and math.isclose(tone.high_shelf_db, 0.0, abs_tol=1e-9)
         and math.isclose(tone.output_gain_db, 0.0, abs_tol=1e-9)
+        and math.isclose(tone.presence_db, 0.0, abs_tol=1e-9)
     ):
         return wav_bytes
 
@@ -193,6 +211,11 @@ def process_wav(wav_bytes: bytes, tone: TonePreset) -> bytes:
         samples = _apply_biquad(
             samples,
             _shelf_coefficients(sample_rate, 3000.0, tone.high_shelf_db, high=True),
+        )
+    if not math.isclose(tone.presence_db, 0.0, abs_tol=1e-9):
+        samples = _apply_biquad(
+            samples,
+            _peaking_coefficients(sample_rate, 1400.0, 0.9, tone.presence_db),
         )
 
     gain = 10.0 ** (tone.output_gain_db / 20.0)

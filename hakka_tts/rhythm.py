@@ -31,6 +31,9 @@ RHYTHM_PRESETS: dict[str, RhythmPreset] = {
     "natural": RhythmPreset(
         "natural", "自然", "清理多餘空格並依語意柔和斷句", 100, 300, 20
     ),
+    "human": RhythmPreset(
+        "human", "真人口語", "縮短氣口並增加語意分句，模擬自然人聲說話", 70, 240, 16
+    ),
     "conversation": RhythmPreset(
         "conversation", "對話", "短停頓較俐落，適合日常對話", 85, 260, 18
     ),
@@ -45,6 +48,8 @@ RHYTHM_PRESETS: dict[str, RhythmPreset] = {
 RHYTHM_ALIASES = {
     "原始": "original",
     "自然": "natural",
+    "真人": "human",
+    "真人口語": "human",
     "對話": "conversation",
     "敘事": "narration",
     "播報": "news",

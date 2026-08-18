@@ -1,6 +1,6 @@
 [project]
 name = "taiwan-hakka-tts"
-version = "0.4.0"
+version = "0.5.0"
 description = "客家委員會臺灣客語語音資料庫 TTS API client and Codex MCP server"
 requires-python = ">=3.11"
 
