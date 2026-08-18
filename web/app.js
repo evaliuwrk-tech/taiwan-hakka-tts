@@ -2,12 +2,12 @@ import { prepareText, RHYTHM_PRESETS } from "./rhythm.js";
 
 const TONES = {
   natural: { label: "自然原聲", pitch: 0, low: 0, high: 0, presence: 0, gain: 0 },
-  deep: { label: "低沉", pitch: -3.5, low: 6, high: -4, presence: -2, gain: -3 },
-  young: { label: "年輕", pitch: 2.8, low: -3, high: 4.5, presence: 2, gain: -2.5 },
-  child: { label: "兒童", pitch: 5, low: -6, high: 6, presence: 4, gain: -3.5 },
-  warm: { label: "溫暖", pitch: -1.2, low: 5, high: -4, presence: 1, gain: -2.5 },
-  bright: { label: "明亮", pitch: 0.8, low: -3, high: 7, presence: 3, gain: -4 },
-  soft: { label: "柔和", pitch: -0.7, low: 2, high: -7, presence: -2.5, gain: -2.5 },
+  deep: { label: "低沉", pitch: -4.9, low: 10, high: -8, presence: -5, gain: -5 },
+  young: { label: "年輕", pitch: 3.8, low: -6, high: 8, presence: 5, gain: -5.5 },
+  child: { label: "兒童", pitch: 7, low: -10, high: 11, presence: 7, gain: -8 },
+  warm: { label: "溫暖", pitch: -1.8, low: 8, high: -7, presence: 1.5, gain: -4.5 },
+  bright: { label: "明亮", pitch: 1.8, low: -7, high: 11, presence: 7, gain: -8 },
+  soft: { label: "柔和", pitch: -0.9, low: 3, high: -12, presence: -6, gain: -3.5 },
 };
 
 const DIALECTS = { sixian: "四縣腔", hailu: "海陸腔", dapu: "大埔腔" };
@@ -25,7 +25,6 @@ const elements = {
   gender: document.querySelector("#gender"),
   tone: document.querySelector("#tone"),
   rate: document.querySelector("#rate"),
-  rateOutput: document.querySelector("#rate-output"),
   shortPause: document.querySelector("#short-pause"),
   shortOutput: document.querySelector("#short-pause-output"),
   longPause: document.querySelector("#long-pause"),
@@ -96,7 +95,6 @@ function applyRhythmDefaults() {
 }
 
 function updateRanges() {
-  elements.rateOutput.textContent = `${Number(elements.rate.value).toFixed(2)}×`;
   elements.shortOutput.textContent = `${elements.shortPause.value} ms`;
   elements.longOutput.textContent = `${elements.longPause.value} ms`;
 }
@@ -291,7 +289,7 @@ elements.text.addEventListener("input", updatePreview);
 document.querySelectorAll('input[name="text-type"]').forEach((item) => item.addEventListener("change", updatePreview));
 document.querySelectorAll('input[name="rhythm"]').forEach((item) => item.addEventListener("change", applyRhythmDefaults));
 elements.dialect.addEventListener("change", updateVoiceOptions);
-[elements.rate, elements.shortPause, elements.longPause].forEach((item) => item.addEventListener("input", updateRanges));
+[elements.shortPause, elements.longPause].forEach((item) => item.addEventListener("input", updateRanges));
 elements.form.addEventListener("submit", handleSynthesis);
 elements.settingsForm.addEventListener("submit", saveSettings);
 elements.dialog.addEventListener("click", (event) => {

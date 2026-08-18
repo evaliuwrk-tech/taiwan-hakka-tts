@@ -71,10 +71,17 @@ class EffectsTests(unittest.TestCase):
     def test_alias_and_custom_pitch_validation(self):
         self.assertEqual(resolve_tone("溫暖").name, "warm")
         self.assertEqual(resolve_tone("兒童").name, "child")
-        self.assertEqual(resolve_tone("child").pitch_semitones, 5.0)
+        self.assertEqual(resolve_tone("child").pitch_semitones, 7.0)
         self.assertEqual(resolve_tone("deep", -3.0).pitch_semitones, -3.0)
         with self.assertRaises(HakkaTTSError):
             resolve_tone("deep", -5.0)
+
+    def test_character_voices_have_a_wide_pitch_and_eq_spread(self):
+        pitches = [preset.pitch_semitones for preset in TONE_PRESETS.values()]
+        self.assertGreater(max(pitches) - min(pitches), 11.0)
+        self.assertGreaterEqual(TONE_PRESETS["deep"].low_shelf_db, 10.0)
+        self.assertGreaterEqual(TONE_PRESETS["child"].high_shelf_db, 10.0)
+        self.assertLessEqual(TONE_PRESETS["soft"].high_shelf_db, -10.0)
 
 
 if __name__ == "__main__":
